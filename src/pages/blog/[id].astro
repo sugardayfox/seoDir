@@ -1,0 +1,30 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { supabase } from '../../utils/supabase';
+
+const { id } = Astro.params;
+
+const { data: post } = await supabase
+  .from('blog_posts')
+  .select('*')
+  .eq('id', id)
+  .single();
+
+if (!post) {
+  return Astro.redirect('/404');
+}
+---
+
+<Layout 
+  title={post.title}
+  description={post.description}
+  article={true}
+>
+  <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <h1 class="text-4xl font-bold mb-4">{post.title}</h1>
+    <time class="text-gray-500 mb-8 block">
+      {new Date(post.published_date).toLocaleDateString()}
+    </time>
+    <div class="prose max-w-none" set:html={post.content} />
+  </article>
+</Layout>

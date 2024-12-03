@@ -1,0 +1,62 @@
+---
+import Layout from '../layouts/Layout.astro';
+import DirectoryItemCard from '../components/DirectoryItemCard.astro';
+import SubmitSection from '../components/sections/SubmitSection.astro';
+import FAQSection from '../components/sections/FAQSection.astro';
+import BlogSection from '../components/sections/BlogSection.astro';
+import ListingModal from '../components/ListingModal.astro';
+import { supabase } from '../utils/supabase';
+
+const { data: directoryItems = [] } = await supabase
+  .from('directory_items')
+  .select('*')
+  .order('created_at', { ascending: false })
+  .limit(6);
+---
+
+<Layout title="Find What You Need">
+  <!-- Hero Section -->
+  <section class="bg-primary text-white py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-4xl md:text-6xl font-bold">
+        Find What You Need
+      </h1>
+      <p class="mt-4 text-xl text-gray-300">
+        Your comprehensive resource for discovering and connecting
+      </p>
+      <a
+        href="/directory"
+        class="mt-8 inline-block bg-white text-primary px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+      >
+        Explore Directory
+      </a>
+    </div>
+  </section>
+
+  <!-- Directory Preview Section -->
+  <section class="py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center mb-12">
+        <h2 class="text-3xl font-bold">Featured Listings</h2>
+        <a href="/directory" class="text-primary font-semibold hover:text-secondary">
+          View All →
+        </a>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {directoryItems.map((item) => (
+          <DirectoryItemCard
+            title={item.title}
+            description={item.description}
+            tags={item.tags}
+            id={item.id}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <SubmitSection />
+  <FAQSection />
+  <BlogSection />
+  <ListingModal />
+</Layout>

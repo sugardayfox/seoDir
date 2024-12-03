@@ -1,0 +1,34 @@
+---
+interface Props {
+  results?: Array<{
+    type: 'directory' | 'post';
+    id: string;
+    data: {
+      title: string;
+      description: string;
+      tags?: string[];
+    };
+  }>;
+}
+
+const { results = [] } = Astro.props;
+---
+
+{results.length === 0 ? (
+  <p class="text-center text-gray-500">Start typing to search...</p>
+) : (
+  <div class="space-y-4">
+    {results.map(result => (
+      <a
+        href={`/${result.type === 'directory' ? 'directory' : 'blog'}/${result.id}`}
+        class="block p-4 hover:bg-gray-50 rounded-lg"
+      >
+        <h3 class="font-semibold">{result.data.title}</h3>
+        <p class="text-sm text-gray-600">{result.data.description}</p>
+        <span class="text-xs text-gray-500 mt-1 inline-block">
+          {result.type === 'directory' ? 'Directory' : 'Blog'}
+        </span>
+      </a>
+    ))}
+  </div>
+)}
