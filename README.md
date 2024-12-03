@@ -4,11 +4,11 @@ A multilingual directory website built with Astro, React, and Supabase.
 
 ## Features
 
-- 🌍 Multilingual support (13 languages)
 - 📱 Responsive design
 - 🎨 Theme customization
 - 🔍 Full-text search
 - 📝 Content management with Supabase
+- Blog by Keystatic CMS
 - 🎯 SEO optimized
 
 ## Setup
